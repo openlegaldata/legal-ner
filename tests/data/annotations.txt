@@ -1,0 +1,2 @@
+{"doc_id": 3, "text": "Die Revision des Klägers gegen das Urteil des 6. Zivilsenats des Oberlandesgerichts Köln vom 16. Dezember 2016 wird zurückgewiesen.", "entities": [[65, 88, "ORG"]], "username": "admin"}
+{"doc_id": 7, "text": "Für die vollstationäre Aufnahme pflegebedürftiger Personen in die \"Kaiser-Otto-Residenz\" in E. verwendet sie einen vorformulierten Pflegevertrag, der unter anderem folgende Bestimmungen enthält:", "entities": [[66, 93, "ORG"]], "username": "admin"}
