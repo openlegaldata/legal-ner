@@ -25,9 +25,9 @@ class TestTrainSpacy(TestCase):
         after_score = test(data, nlp, False)
         self.assertGreater(after_score, before_score)
 
-    # def test_train_blank(self):
-    #     data = load_data(Path('data/annotations.json'))
-    #     nlp = spacy.blank('de')
-    #     add_pipe(nlp, 'ner')
-    #     add_labels(nlp.get_pipe('ner'), get_ner_labels(data))
-    #     train(data, 'ner', 100, nlp, True, True, 1, 0.5, 1.001)
+    def test_train_blank(self):
+        data = load_data(Path('data/annotations.txt'))
+        nlp = spacy.blank('de')
+        add_pipe(nlp, 'ner')
+        add_labels(nlp.get_pipe('ner'), get_ner_labels(data))
+        train(data, 'ner', 1, nlp, True, True, 1, 0.0, 1.0)

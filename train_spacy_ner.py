@@ -42,7 +42,7 @@ def train(train_data, pipe, n_epochs, nlp, blank_model, verbose, init_batch_size
 
     other_pipes = [p for p in nlp.pipe_names if p != pipe]
     with nlp.disable_pipes(*other_pipes):
-        if not blank_model:
+        if blank_model:
             nlp.begin_training()
 
         for epoch in range(1, n_epochs + 1):
@@ -59,7 +59,7 @@ def train(train_data, pipe, n_epochs, nlp, blank_model, verbose, init_batch_size
                     losses=losses,
                 )
             if verbose:
-                print('Epoch {} - Losses: {}'.format(epoch, losses))
+                print('Epoch {} - Loss: {}'.format(epoch, losses['ner']))
 
 
 def linear_decay(initial_dropout_rate, epoch, decay=1.0):
