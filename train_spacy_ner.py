@@ -10,13 +10,18 @@ INSTALLED_MODELS = {'de': 'de_core_news_sm', 'en': 'en_core_web_sm'}
 
 
 def fscore(ents, true_ents):
+    if len(ents) == 0 or len(true_ents) == 0:
+        return 0.0
+
     true_positives = sum(1 for ent in ents if ent in true_ents)
     false_negatives = sum(1 for ent in true_ents if ent not in ents)
     false_positives = sum(1 for ent in ents if ent not in true_ents)
     precision = true_positives / (true_positives + false_positives)
     recall = true_positives / (true_positives + false_negatives)
+
     if (precision + recall) == 0:
         return 0.0
+
     return (2 * precision * recall) / (precision + recall)
 
 
