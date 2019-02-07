@@ -108,7 +108,8 @@ def save_model(nlp, path: Path):
 
 
 @plac.annotations(
-    data_dir=('Training data directory', 'option', 't', Path),
+    train_data_dir=('Training data directory', 'option', 't', Path),
+    test_data_dir=('Optional test data directory', 'option', 't', Path),
     output_dir=('Optional output directory', 'option', 'o', Path),
     lang=('Model language', 'option', 'l'),
     blank_model=('Train a blank model or base training on existing model', 'flag', 'b'),
@@ -118,24 +119,22 @@ def save_model(nlp, path: Path):
     init_dropout_rate=('Initial dropout rate', 'option', 'd', float),
     batch_comp_rate=('Batch compound rate', 'option', 'c', float),
 )
-def main(data_dir, output_dir=None, lang='de', blank_model=False, verbose=False, epochs=100, init_batch_size=1,
-         init_dropout_rate=0.5, batch_comp_rate=1.001):
+def main(train_data_dir, test_data_dir=None, output_dir=None, lang='de', blank_model=False, verbose=False, epochs=100,
+         init_batch_size=1, init_dropout_rate=0.5, batch_comp_rate=1.001):
     if blank_model:
         nlp = spacy.blank(INSTALLED_MODELS[lang])
         add_pipe(nlp, 'ner')
     else:
         nlp = spacy.load(INSTALLED_MODELS[lang])
 
-    data = load_data(data_dir)
-    add_labels(nlp.get_pipe('ner'), get_ner_labels(data))
-
-    # TODO split data
-    train_data = data
-    test_data = data
+    train_data = load_data(train_data_dir)
+    add_labels(nlp.get_pipe('ner'), get_ner_labels(train_data))
 
     train(train_data, 'ner', epochs, nlp, blank_model, verbose, init_batch_size, init_dropout_rate, batch_comp_rate)
 
-    test(test_data, nlp, verbose)
+    if test_data_dir is not None:
+        test_data = load_data(test_data_dir)
+        test(test_data, nlp, verbose)
 
     if output_dir:
         save_model(nlp, output_dir)
