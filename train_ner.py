@@ -6,40 +6,10 @@ import plac
 import spacy
 from spacy.util import minibatch, compounding
 
+from data_utils import load_data
+from test import test
+
 INSTALLED_MODELS = {'de': 'de_core_news_sm', 'en': 'en_core_web_sm'}
-
-
-def fscore(ents, true_ents):
-    if len(ents) == 0 or len(true_ents) == 0:
-        return 0.0
-
-    true_positives = sum(1 for ent in ents if ent in true_ents)
-    false_negatives = sum(1 for ent in true_ents if ent not in ents)
-    false_positives = sum(1 for ent in ents if ent not in true_ents)
-    precision = true_positives / (true_positives + false_positives)
-    recall = true_positives / (true_positives + false_negatives)
-
-    if (precision + recall) == 0:
-        return 0.0
-
-    return (2 * precision * recall) / (precision + recall)
-
-
-def test(test_data, nlp, verbose):
-    avg_score = 0.0
-    for sent, ents in test_data:
-        doc = nlp(sent)
-        score = fscore([(ent.start_char, ent.end_char, ent.label_) for ent in doc.ents], ents['entities'])
-        avg_score += score
-        if verbose:
-            print("Sentence: {}".format(sent))
-            print("  Entities: {}".format([(ent.text, ent.label_) for ent in doc.ents]))
-            print("  Tokens: {}".format([t.text for t in doc]))
-            print("  F-Score: {}\n".format(score))
-
-    avg_score /= len(test_data)
-    print("F-Score: {}".format(avg_score))
-    return avg_score
 
 
 def train(train_data, pipe, n_epochs, nlp, blank_model, verbose, init_batch_size, init_dropout_rate, batch_comp_rate):
@@ -65,10 +35,11 @@ def train(train_data, pipe, n_epochs, nlp, blank_model, verbose, init_batch_size
                 )
             if verbose:
                 print('Epoch {} - Loss: {}'.format(epoch, losses['ner']))
+                test(train_data, nlp, False)
 
 
-def linear_decay(initial_dropout_rate, epoch, decay=1.0):
-    return initial_dropout_rate / (epoch * decay)
+def linear_decay(rate, epoch, decay=1.0):
+    return rate / (epoch * decay)
 
 
 def add_pipe(nlp, pipe, last=True):
@@ -87,31 +58,17 @@ def add_labels(pipe, labels):
         pipe.add_label(label)
 
 
-def load_data(data_dir: Path):  # TODO possibly make data_dir to path
-    if not data_dir.exists():
-        raise ValueError("Invalid path given: {}".format(data_dir))
-
-    data = []
-    with data_dir.open('r') as file:
-        for line in file:
-            json_dict = json.loads(line)
-            sent = json_dict['text']
-            ents = [(item[0], item[1], item[2]) for item in json_dict['entities']]
-            data += [(sent, {'entities': ents})]
-    return data
-
-
 def save_model(nlp, path: Path):
     if not path.exists():
-        path.mkdir()
+        path.mkdir(parents=True, exist_ok=True)
     nlp.to_disk(path)
 
 
 @plac.annotations(
     train_data_dir=('Training data directory', 'option', 't', Path),
-    test_data_dir=('Optional test data directory', 'option', 't', Path),
+    test_data_dir=('Optional test data directory', 'option', 'l', Path),
     output_dir=('Optional output directory', 'option', 'o', Path),
-    lang=('Model language', 'option', 'l'),
+    lang=('Model language', 'option'),
     blank_model=('Train a blank model or base training on existing model', 'flag', 'b'),
     verbose=('Print detailed training progress', 'flag', 'v'),
     epochs=('Number of training epochs', 'option', 'e', int),
@@ -134,7 +91,8 @@ def main(train_data_dir, test_data_dir=None, output_dir=None, lang='de', blank_m
 
     if test_data_dir is not None:
         test_data = load_data(test_data_dir)
-        test(test_data, nlp, verbose)
+        print('\nPerformance on test data:')
+        test(test_data, nlp, False)
 
     if output_dir:
         save_model(nlp, output_dir)

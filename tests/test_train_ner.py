@@ -3,10 +3,10 @@ from unittest import TestCase
 
 import spacy
 
-from train_spacy_ner import load_data, train, add_labels, get_ner_labels, add_pipe, test
+from train_ner import load_data, train, add_labels, get_ner_labels, add_pipe, test
 
 
-class TestTrainSpacy(TestCase):
+class TestTrainNer(TestCase):
 
     def test_load_data(self):
         data = load_data(Path('data/annotations.txt'))
