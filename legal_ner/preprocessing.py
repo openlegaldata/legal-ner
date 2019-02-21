@@ -11,11 +11,13 @@ class HtmlConcealer:
         self.pos_table = np.arange(len(self.content))
 
     def conceal(self):
-        self.remove_pattern(r'<br.*>', replace_with='\n')
-        self.remove_pattern(r'<[^>]+>')
-        self.remove_pattern(r'( |\xa0)+', replace_with=' ')
-        self.remove_pattern(r' +\n +', replace_with='\n')
+        self.remove_pattern(r'<br.*>', replace_with='\n')  # html linebreaks
+        self.remove_pattern(r'<[^>]+>')  # html tags
+        self.remove_pattern(r'(\xa0)+|(' '){2,}', replace_with=' ')  # excess whitespace
+        self.remove_pattern(r'(^ *)|( * $)', flags=re.MULTILINE)  # leading or trailing whitespace
+        self.remove_pattern(r'\n{2,}', replace_with='\n')  # excess newlines
         self.replace_html_special_ents()
+        self.remove_pattern(r'^(\d{1,3}|[a-z]|I{1,3})(\)|\.)? ?', flags=re.MULTILINE)  # enumeration numbers
 
     def get_content(self):
         return self.content
@@ -23,8 +25,8 @@ class HtmlConcealer:
     def concealed_to_html_pos(self, pos_start, pos_end):
         return self.pos_table[pos_start], self.pos_table[pos_end]
 
-    def remove_pattern(self, regex, replace_with=''):
-        pattern = re.compile(regex)
+    def remove_pattern(self, regex, replace_with='', flags=0):
+        pattern = re.compile(regex, flags=flags)
         while True:
             m = re.search(pattern, self.content)
             if m is None:
