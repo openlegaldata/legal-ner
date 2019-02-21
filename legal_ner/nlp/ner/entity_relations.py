@@ -1,13 +1,11 @@
 from spacy.tokens import Span
 
-from legal_ner.nlp.lemmatizer import lemmas
-
 
 class EntityRelationExtractor(object):
 
-    def __init__(self, entities, lang, noun_phrases=False):
+    def __init__(self, entities, model, noun_phrases=False):
         self.entities = entities
-        self.lang = lang
+        self.model = model
         self.noun_phrases = noun_phrases
         if not Span.has_extension('entity_relation_subj'):
             Span.set_extension('entity_relation_subj', default='')
@@ -21,14 +19,12 @@ class EntityRelationExtractor(object):
 
         for span in filter(lambda t: t.label_ in self.entities, doc.ents):
             token = span[0]
-            if self.lang == 'de':
+            if 'de' in self.model:
                 relation = extract_relations_de(token)
-            elif self.lang == 'en':
+            elif 'en' in self.model:
                 relation = extract_relations_en(token)
             else:
-                raise ValueError('Unsupported language {}!'.format(self.lang))
-
-            relation = lemmas(relation, lang=self.lang)
+                raise ValueError('Unsupported model {}!'.format(self.model))
 
             if relation:
                 span._.set('entity_relation_subj', relation[0])
@@ -45,20 +41,20 @@ def extract_relations_en(token):
     """https://spacy.io/api/annotation#dependency-parsing CLEAR Style"""
     if token.dep_ == 'dobj':
         # entity is attribute or direct object
-        verb = token.head.text
+        verb = token.head.lemma_
         subject = None
         for t in token.head.lefts:
             if t.dep_ == 'nsubj':
-                subject = t.text
+                subject = t.lemma_
         return subject, verb
 
     elif token.dep_ == 'pobj' and token.head.dep_ == 'prep':
         # entity is object of preposition
-        verb = token.head.head.text
+        verb = token.head.head.lemma_
         subject = None
         for t in token.head.head.lefts:
             if t.dep_ == 'nsubj':
-                subject = t.text
+                subject = t.lemma_
         return subject, verb
 
 
@@ -69,11 +65,11 @@ def extract_relations_de(token):
         head = token.head
         while head.dep_ != 'ROOT':
             head = head.head
-        verb = head.text
+        verb = head.lemma_
         subject = None
         for t in head.children:
             if t.dep_ == 'sb':
-                subject = t.text
+                subject = t.lemma_
         return subject, verb
 
     elif token.dep_ == 'nk':
@@ -83,7 +79,7 @@ def extract_relations_de(token):
             token.dep_ = 'oa'
             return extract_relations_de(token)
 
-        prep = token.head.text
+        prep = token.head.lemma_
 
         subject = None
         head = token.head
@@ -91,5 +87,5 @@ def extract_relations_de(token):
             head = head.head
         for t in head.children:
             if t.dep_ == 'sb':
-                subject = t.text
+                subject = t.lemma_
         return subject, prep
