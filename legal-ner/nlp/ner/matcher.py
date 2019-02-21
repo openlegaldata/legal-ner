@@ -4,8 +4,8 @@ from spacy.tokens import Span
 
 class EntityMatcher(object):
 
-    def __init__(self, nlp, patterns, label, whole_sent=False):
-        self.mark_sent = whole_sent
+    def __init__(self, nlp, patterns, label, mark_whole_sent=False):
+        self.mark_sent = mark_whole_sent
         self.label = nlp.vocab.strings[label]
         self.matcher = Matcher(nlp.vocab)
         self.matcher.add(self.label, None, patterns)

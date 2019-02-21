@@ -18,8 +18,8 @@ def run(model, text):
     stakeholder_matcher = EntityMatcher(nlp, stakeholder, 'STAKEHOLDER')
     nlp.add_pipe(stakeholder_matcher, name='stakeholder_matcher', before='ner')
 
-    reason_matcher = EntityMatcher(nlp, reason, 'REASON', whole_sent=True)
-    nlp.add_pipe(reason_matcher, name='reason_matcher', before='ner')
+    cause_matcher = EntityMatcher(nlp, cause, 'CAUSE', mark_whole_sent=True)
+    nlp.add_pipe(cause_matcher, name='cause_matcher', before='ner')
 
     date_matcher = RegexpEntityMatcher(nlp, 'DATE', GermanDates())
     nlp.add_pipe(date_matcher, name='regexp_dates_extractor', before='ner')

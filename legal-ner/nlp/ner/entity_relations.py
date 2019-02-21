@@ -1,38 +1,39 @@
-from typing import Generator
+from spacy.tokens import Span
 
-from spacy.tokens import Doc
-
-from nlp.lemmatizer import lemmatize
+from nlp.lemmatizer import lemmas
 
 
-def extract_relations(doc: Doc, entity_name: str, model_name: str, noun_phrases=False) -> Generator:
-    merge_spans(doc.ents)
-    if noun_phrases:
-        merge_spans(doc.noun_chunks)
+class EntityRelationExtractor(object):
 
-    for span in filter(lambda t: t.label_ == entity_name, doc.ents):
-        token = span[0]
-        if model_name == 'de_core_news_sm':
-            relation = extract_relations_de(token)
-            relation = lemmas(relation, 'de')
-        elif model_name == 'en_core_web_sm':
-            relation = extract_relations_en(token)
-            relation = lemmas(relation, 'en')
-        else:
-            raise ValueError('Unsupported model {}!'.format(model_name))
+    def __init__(self, entities, lang, noun_phrases=False):
+        self.entities = entities
+        self.lang = lang
+        self.noun_phrases = noun_phrases
+        if not Span.has_extension('entity_relation_subj'):
+            Span.set_extension('entity_relation_subj', default='')
+        if not Span.has_extension('entity_relation_root'):
+            Span.set_extension('entity_relation_root', default='')
 
-        if relation:
-            yield relation, (token.text, span.start_char, span.end_char - 1)
+    def __call__(self, doc):
+        merge_spans(doc.ents)
+        if self.noun_phrases:
+            merge_spans(doc.noun_chunks)
 
+        for span in filter(lambda t: t.label_ in self.entities, doc.ents):
+            token = span[0]
+            if self.lang == 'de':
+                relation = extract_relations_de(token)
+            elif self.lang == 'en':
+                relation = extract_relations_en(token)
+            else:
+                raise ValueError('Unsupported language {}!'.format(self.lang))
 
-def lemmas(word_tuple, lang='de'):
-    if word_tuple is None:
-        return None
+            relation = lemmas(relation, lang=self.lang)
 
-    lemmatized_words = ()
-    for word in word_tuple:
-        lemmatized_words += (lemmatize(word, lang=lang),)
-    return lemmatized_words
+            if relation:
+                span._.set('entity_relation_subj', relation[0])
+                span._.set('entity_relation_root', relation[1])
+        return doc
 
 
 def merge_spans(spans):
