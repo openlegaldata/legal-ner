@@ -1,10 +1,10 @@
 from typing import Generator
 
-from legal_ner.nlp import pipeline
-from legal_ner.nlp.preprocessing import HtmlConcealer
+from legal_ner import pipeline
+from legal_ner.preprocessing import HtmlConcealer
 
 
-class EntityExtractor:  # TODO where to put this, its on higher level than pipeline/ner
+class EntityExtractor:
 
     def __init__(self, model='de_core_news_sm'):
         self.model = model
@@ -15,7 +15,7 @@ class EntityExtractor:  # TODO where to put this, its on higher level than pipel
 
     def get_entities(self, entity_type) -> Generator:
         for ent in self.doc.ents:
-            if self.spacy_entity_name(entity_type) == ent.label_:  # TODO label names
+            if entity_type == ent.label_:
                 yield (ent.text, ent.start_char, ent.end_char)
 
 

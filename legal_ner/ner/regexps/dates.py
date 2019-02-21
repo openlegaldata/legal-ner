@@ -2,7 +2,7 @@ import re
 
 import dateparser
 
-from legal_ner.nlp.ner.regexps.base import Regexp
+from legal_ner.ner.regexps.base import Regexp
 
 
 class GermanDates(Regexp):

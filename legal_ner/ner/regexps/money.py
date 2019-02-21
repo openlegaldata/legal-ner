@@ -1,7 +1,7 @@
 import re
 from typing import Pattern
 
-from legal_ner.nlp.ner.regexps.base import Regexp
+from legal_ner.ner.regexps.base import Regexp
 
 MONEY_AMOUNT_GROUP = 'amount'
 MONEY_CURRENCY_GROUP = 'currency'

@@ -1,11 +1,11 @@
 import spacy
 
-from legal_ner.nlp.ner.matcher import EntityMatcher
-from legal_ner.nlp.ner.regexp_matcher import RegexpEntityMatcher
-from legal_ner.nlp.ner.regexps.dates import GermanDates
-from legal_ner.nlp.ner.regexps.money import GermanEuros
-from legal_ner.nlp.ner.regexps.percents import GermanPercentages
-from legal_ner.nlp.ner.patterns import *
+from legal_ner.ner.matcher import EntityMatcher
+from legal_ner.ner.regexp_matcher import RegexpEntityMatcher
+from legal_ner.ner.regexps.dates import GermanDates
+from legal_ner.ner.regexps.money import GermanEuros
+from legal_ner.ner.regexps.percents import GermanPercentages
+from legal_ner.ner.patterns import stakeholder, cause
 
 
 def run(model, text):

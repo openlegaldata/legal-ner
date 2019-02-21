@@ -14,8 +14,8 @@ from legal_ner.entity_extractors import HtmlEntityExtractor
     state=('Annotate all cases for the given state id', 'option', 's', int)
 )
 def main(api_key, case_id=None, slug=None, file_number=None, court=None, state=None,
-         entities=('MONEY', 'LOCATION', 'PERSON', 'ORGANIZATION', 'L_STKHOLDER', 'PERCENT', 'DATE'),
-         model='../models/legal-de'):
+         entities=('EURO', 'LOCATION', 'PERSON', 'ORGANIZATION', 'STAKEHOLDER', 'CAUSE', 'PERCENT', 'DATE'),
+         model='../../models/legal-de'):
     if len(entities) == 0:
         print('No entities given!')
         return
