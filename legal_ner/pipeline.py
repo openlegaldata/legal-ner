@@ -6,14 +6,16 @@ from legal_ner.ner.regexps.dates import GermanDates
 from legal_ner.ner.regexps.money import GermanEuros
 from legal_ner.ner.regexps.percents import GermanPercentages
 from legal_ner.ner.patterns import stakeholder, cause
+from legal_ner.tokenization.special_cases import special_cases
+from legal_ner.tokenization.tokenizer import create_custom_tokenizer
 
 
 def run(model, text):
     nlp = spacy.load(model)
 
-    # TODO add custom tokenization and sentence segmentation
-    # https://spacy.io/usage/linguistic-features#special-cases
-    # https://spacy.io/usage/linguistic-features#sbd
+    nlp.tokenizer = create_custom_tokenizer(nlp)
+    for word, special_case in special_cases.items():
+        nlp.tokenizer.add_special_case(word, special_case)
 
     stakeholder_matcher = EntityMatcher(nlp, stakeholder, 'STAKEHOLDER')
     nlp.add_pipe(stakeholder_matcher, name='stakeholder_matcher', before='ner')
