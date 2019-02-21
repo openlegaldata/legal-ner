@@ -3,7 +3,7 @@ from pathlib import Path
 import oldp_client
 import plac
 
-from nlp.preprocessing import remove_whitespace, remove_pattern, replace_html_special_ents
+from legal_ner.preprocessing import HtmlConcealer
 
 
 @plac.annotations(
@@ -27,12 +27,9 @@ def main(output_dir: Path, api_key: str, cases: str):
 
         filepath = output_dir / "case_{}.txt".format(case_id)
         with filepath.open("w", encoding="utf-8") as f:
-            content = case.content
-            content = remove_pattern(content, r'<br.*>', replace_with='\n')
-            content = remove_pattern(content, r'<[^>]+>')
-            content = replace_html_special_ents(content)
-            content = remove_whitespace(content)
-            f.write(content)
+            concealer = HtmlConcealer(case.content)
+            concealer.conceal()
+            f.write(concealer.get_content())
 
 
 if __name__ == '__main__':
