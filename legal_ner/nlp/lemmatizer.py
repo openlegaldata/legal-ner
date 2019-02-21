@@ -1,8 +1,7 @@
-from oldp.apps.nlp.base import SpacyNLP
-
+import spacy
 
 def lemmatize(noun: str, lang='de'):  # TODO
-    nlp = SpacyNLP(lang=lang)
+    nlp = spacy.load(lang)
     container = nlp.process(noun)
     return next(container.lemmas())
 

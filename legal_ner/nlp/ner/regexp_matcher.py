@@ -2,7 +2,7 @@ from typing import Generator
 
 from spacy.tokens import Span
 
-from nlp.ner.regexps.base import Regexp
+from legal_ner.nlp.ner.regexps.base import Regexp
 
 
 class RegexpEntityMatcher(object):

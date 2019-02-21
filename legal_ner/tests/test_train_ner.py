@@ -3,7 +3,9 @@ from unittest import TestCase
 
 import spacy
 
-from train_ner import load_data, train, add_labels, get_ner_labels, add_pipe, test
+from legal_ner.training.test import test
+from legal_ner.training.train_ner import train, add_labels, get_ner_labels, add_pipe
+from legal_ner.utils.data import load_data
 
 
 class TestTrainNer(TestCase):

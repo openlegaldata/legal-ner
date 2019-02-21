@@ -8,5 +8,6 @@ class Regexp(ABC):
     def regexp_obj(self) -> Pattern:
         pass
 
+    @abstractmethod
     def normalize(self, groups: dict, full_match: str) -> any:
-        return full_match
+        pass

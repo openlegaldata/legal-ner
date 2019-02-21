@@ -2,7 +2,7 @@ import oldp_client
 import plac
 from oldp_client.rest import ApiException
 
-from nlp.ner.extractors import HtmlEntityExtractor
+from legal_ner.entity_extractors import HtmlEntityExtractor
 
 
 @plac.annotations(

@@ -1,11 +1,11 @@
 import spacy
 
-from nlp.ner.matcher import EntityMatcher
-from nlp.ner.regexp_matcher import RegexpEntityMatcher
-from nlp.ner.regexps.dates import GermanDates
-from nlp.ner.regexps.money import GermanEuros
-from nlp.ner.regexps.percents import GermanPercentages
-from nlp.ner.patterns import *
+from legal_ner.nlp.ner.matcher import EntityMatcher
+from legal_ner.nlp.ner.regexp_matcher import RegexpEntityMatcher
+from legal_ner.nlp.ner.regexps.dates import GermanDates
+from legal_ner.nlp.ner.regexps.money import GermanEuros
+from legal_ner.nlp.ner.regexps.percents import GermanPercentages
+from legal_ner.nlp.ner.patterns import *
 
 
 def run(model, text):

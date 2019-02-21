@@ -1,7 +1,7 @@
 from typing import Generator
 
-from nlp import pipeline
-from nlp.preprocessing import HtmlConcealer
+from legal_ner.nlp import pipeline
+from legal_ner.nlp.preprocessing import HtmlConcealer
 
 
 class EntityExtractor:  # TODO where to put this, its on higher level than pipeline/ner

@@ -1,6 +1,6 @@
 from spacy.tokens import Span
 
-from nlp.lemmatizer import lemmas
+from legal_ner.nlp.lemmatizer import lemmas
 
 
 class EntityRelationExtractor(object):

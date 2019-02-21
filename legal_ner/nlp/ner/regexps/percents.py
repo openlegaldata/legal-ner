@@ -2,7 +2,7 @@ import re
 
 from decimal import Decimal
 
-from nlp.ner.regexps.base import Regexp
+from legal_ner.nlp.ner.regexps.base import Regexp
 
 PERCENTAGE_VALUE_GROUP = 'value'
 PERCENTAGE_SYMBOL_GROUP = 'symbol'
