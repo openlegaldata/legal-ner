@@ -8,8 +8,8 @@ PERCENTAGE_VALUE_GROUP = 'value'
 PERCENTAGE_SYMBOL_GROUP = 'symbol'
 
 
-def normalize_percentage_value(value: str) -> str:
-    return value.replace(',', '.')
+def normalize_percentage_value(value: str) -> Decimal:
+    return Decimal(value.replace(',', '.'))
 
 
 class GermanPercentages(Regexp):
@@ -33,6 +33,6 @@ class GermanPercentages(Regexp):
         """Returns a percentage as decimal string."""
         for divisor, regex in self.SYMBOL_MAP.items():
             if re.search(regex, groups[PERCENTAGE_SYMBOL_GROUP], self.FLAGS) is not None:
-                return str(Decimal(normalize_percentage_value(groups[PERCENTAGE_VALUE_GROUP]) /
-                                   Decimal(divisor)))
+                return str(normalize_percentage_value(groups[PERCENTAGE_VALUE_GROUP]).quantize(Decimal('0.001')) /
+                           Decimal(divisor))
         raise ValueError('Percentage {} could not be normalized!'.format(full_match))

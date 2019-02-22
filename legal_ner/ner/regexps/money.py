@@ -1,4 +1,5 @@
 import re
+from decimal import Decimal
 from typing import Pattern
 
 from legal_ner.ner.regexps.base import Regexp
@@ -8,7 +9,7 @@ MONEY_CURRENCY_GROUP = 'currency'
 
 
 def normalize_money_amount(value: str) -> str:
-    return value.replace('.', '').replace(',', '.')
+    return str(Decimal(value.replace('.', '').replace(',', '.')).quantize(Decimal('0.01')))
 
 
 class GermanEuros(Regexp):
