@@ -13,7 +13,6 @@ class TestTrainNer(TestCase):
 
     def test_load_data(self):
         data = load_data(self.ANNOTATIONS_PATH)
-        print(data)
         self.assertEqual(2, len(data))
         self.assertEqual('Die Revision des Klägers gegen das Urteil des 6. Zivilsenats des Oberlandesgerichts Köln '
                          'vom 16. Dezember 2016 wird zurückgewiesen.', data[0][0])

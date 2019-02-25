@@ -2,7 +2,7 @@ from spacy.matcher import Matcher
 from spacy.tokens import Span
 
 
-class EntityMatcher(object):
+class RuleBasedMatcher(object):
 
     def __init__(self, nlp, patterns, label):
         string_store = nlp.vocab.strings

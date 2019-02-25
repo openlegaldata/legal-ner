@@ -5,7 +5,7 @@ from spacy.tokens import Span
 from legal_ner.ner.regexps.base import Regexp
 
 
-class RegexpEntityMatcher(object):
+class RegexpBasedMatcher(object):
 
     def __init__(self, nlp, label, regexp: Regexp):
         string_store = nlp.vocab.strings
