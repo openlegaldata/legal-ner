@@ -6,7 +6,7 @@ from legal_ner.ner.regexp_based import RegexpBasedMatcher
 from legal_ner.ner.regexps.dates import GermanDates
 
 
-class RegexpEntityMatcherTestCase(TestCase):
+class RegexpBasedMatcherTestCase(TestCase):
 
     def test_call(self):
         nlp = spacy.load('de_core_news_sm')

@@ -5,7 +5,7 @@ from legal_ner.ner.regexp_based import RegexpBasedMatcher
 from legal_ner.ner.regexps.dates import GermanDates
 from legal_ner.ner.regexps.money import GermanEuros
 from legal_ner.ner.regexps.percents import GermanPercentages
-from legal_ner.ner.matcher_patterns import party, cause
+from legal_ner.ner.matcher_patterns import party, reasoning, action, forbearance, bgb_at
 from legal_ner.tokenization.special_cases import special_cases
 from legal_ner.tokenization.tokenizer import create_custom_tokenizer
 
@@ -43,8 +43,17 @@ class Pipeline:
         party_matcher = RuleBasedMatcher(nlp, party, 'PARTY')
         nlp.add_pipe(party_matcher, name='party_matcher', after='ner')
 
-        cause_matcher = RuleBasedMatcher(nlp, cause, 'CAUSE')
-        nlp.add_pipe(cause_matcher, name='cause_matcher', after='ner')
+        reasoning_matcher = RuleBasedMatcher(nlp, reasoning, 'REASONING')
+        nlp.add_pipe(reasoning_matcher, name='reasoning_matcher', after='ner')
+
+        action_matcher = RuleBasedMatcher(nlp, action, 'ACTION')
+        nlp.add_pipe(action_matcher, name='action_matcher', after='ner')
+
+        forbearance_matcher = RuleBasedMatcher(nlp, forbearance, 'FORBEARANCE')
+        nlp.add_pipe(forbearance_matcher, name='forbearance_matcher', after='ner')
+
+        bgb_at_matcher = RuleBasedMatcher(nlp, bgb_at, 'BGB_AT')
+        nlp.add_pipe(bgb_at_matcher, name='bgb_at_matcher', after='ner')
 
         date_matcher = RegexpBasedMatcher(nlp, 'DATE', GermanDates())
         nlp.add_pipe(date_matcher, name='regexp_dates_extractor', after='ner')
