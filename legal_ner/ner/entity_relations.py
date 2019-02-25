@@ -19,17 +19,21 @@ class EntityRelationExtractor(object):
 
         for span in filter(lambda t: t.label_ in self.entities, doc.ents):
             token = span[0]
-            if 'de' in self.model:
-                relation = extract_relations_de(token)
-            elif 'en' in self.model:
-                relation = extract_relations_en(token)
-            else:
-                raise ValueError('Unsupported model {}!'.format(self.model))
+            relation = self.extract_relations(token)
 
             if relation:
                 span._.set('entity_relation_subj', relation[0])
                 span._.set('entity_relation_root', relation[1])
         return doc
+
+    def extract_relations(self, token):
+        if 'de' in self.model:
+            relation = extract_relations_de(token)
+        elif 'en' in self.model:
+            relation = extract_relations_en(token)
+        else:
+            raise ValueError('Unsupported model {}!'.format(self.model))
+        return relation
 
 
 def merge_spans(spans):

@@ -29,6 +29,7 @@ def main(output_dir: Path, api_key: str, cases: str):
         with filepath.open("w", encoding="utf-8") as f:
             concealer = HtmlConcealer(case.content)
             concealer.conceal()
+            concealer.remove_enumeration_numbers()
             f.write(concealer.get_content())
 
 

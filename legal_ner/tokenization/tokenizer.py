@@ -3,7 +3,7 @@ from spacy.util import compile_suffix_regex, compile_infix_regex, compile_prefix
 
 custom_suffixes = [
     r'^[A-Z]\d.$',  # Ehefrau W1.
-    r'^\w+\.?-\w+\$.',  # Schl.-Holst.
+    r'^\w+\.?-\w+\.$',  # Schl.-Holst.
     r'^\d{1,2}\.$',  # 20. Februar
 ]
 

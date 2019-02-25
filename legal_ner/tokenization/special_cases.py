@@ -1,8 +1,9 @@
-from spacy.symbols import ORTH, LEMMA, POS, TAG, NORM
+from spacy.symbols import ORTH, LEMMA, POS, NORM
 
 special_cases = {
     u'Art.': [{ORTH: u'Art.', LEMMA: u'Artikel', NORM: u'Artikel', POS: u'NOUN'}],
     u'Urt.': [{ORTH: u'Urt.', LEMMA: u'Urteil', NORM: u'Urteil', POS: u'NOUN'}],
+    u'Buchst.': [{ORTH: u'Buchst.', LEMMA: u'Buchstabe', NORM: u'Buchstabe', POS: u'NOUN'}],
     u'Rn.': [{ORTH: u'Rn.', LEMMA: u'Randnummer', NORM: u'Randnummer', POS: u'NOUN'}],
     u'Aufl.': [{ORTH: u'Aufl.', LEMMA: u'Auflage', NORM: u'Auflage', POS: u'NOUN'}],
     u'n.F.': [{ORTH: u'n.', LEMMA: u'neue', NORM: u'neue', POS: u'ADJ'},

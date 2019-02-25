@@ -1,17 +1,16 @@
 from typing import Generator
 
-from legal_ner import pipeline
 from legal_ner.preprocessing import HtmlConcealer
 
 
 class EntityExtractor:
 
-    def __init__(self, model='de_core_news_sm'):
-        self.model = model
+    def __init__(self, pipeline):
+        self.pipeline = pipeline
         self.doc = None
 
     def run(self, text):
-        self.doc = pipeline.run(self.model, text)
+        self.doc = self.pipeline.run(text)
 
     def get_entities(self, entity_type) -> Generator:
         for ent in self.doc.ents:
