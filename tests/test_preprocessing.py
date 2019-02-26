@@ -3,7 +3,7 @@ from unittest import TestCase
 from legal_ner.preprocessing import HtmlConcealer
 
 
-class PreprocessingTestCase(TestCase):
+class HtmlConcealerTestCase(TestCase):
 
     def test_html_concealing(self):
         html = '<h2>Tenor</h2>\n\n<ul class="ol"><li><p>1. Unter   Ab&#228;nderung des Beschlusses der Kammer'

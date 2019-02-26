@@ -11,11 +11,11 @@ class HtmlConcealer:
         self.pos_table = np.arange(len(self.content))
 
     def conceal(self):
-        self.remove_pattern(r'<br.*>', replace_with='\n')  # html linebreaks
+        self.remove_pattern(r'<br.*>', replace_with=' ')  # html linebreaks
         self.remove_pattern(r'<[^>]+>')  # html tags
         self.remove_pattern(r'\xa0+| {2,}', replace_with=' ')  # excess and nobreaking whitespace
         self.remove_pattern(r'(^ +)|( +$)', flags=re.MULTILINE)  # leading or trailing whitespace
-        self.remove_pattern(r'\n{2,}', replace_with='\n')  # excess newlines
+        self.remove_pattern(r'\n+', replace_with=' ')  # newlines
         self.replace_html_special_ents()
 
     def remove_enumeration_numbers(self):
@@ -25,6 +25,8 @@ class HtmlConcealer:
         return self.content
 
     def concealed_to_html_pos(self, pos_start, pos_end):
+        if pos_end > len(self.pos_table):
+            print('hier')
         return self.pos_table[pos_start], self.pos_table[pos_end]
 
     def remove_pattern(self, regex, replace_with='', flags=0):
