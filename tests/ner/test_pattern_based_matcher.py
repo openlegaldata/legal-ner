@@ -5,11 +5,12 @@ from spacy.symbols import LEMMA
 from legal_ner.ner.pattern_based import PatternBasedMatcher
 
 
-class RuleBasedMatcherTestCase(TestCase):
+class PatternBasedMatcherTestCase(TestCase):
 
     def test_call(self):
         nlp = spacy.load('de_core_news_sm')
         patterns = [[{LEMMA: 'Kläger'}]]
+        nlp.remove_pipe('ner')
         doc = nlp('Der Name des Klägers stand nicht auf der streitigen Liste.')
         matcher = PatternBasedMatcher(nlp, patterns, 'test')
         doc = matcher.__call__(doc)

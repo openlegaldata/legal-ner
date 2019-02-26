@@ -52,7 +52,6 @@ class RuleBasedPipeline(Pipeline):
             nlp.tokenizer.add_special_case(word, special_case)
 
         nlp.remove_pipe('parser')
-        nlp.remove_pipe('tagger')
         nlp.remove_pipe('ner')
 
         party_matcher = PatternBasedMatcher(nlp, party, Entity.PARTY)

@@ -9,7 +9,7 @@ from legal_ner.utils.data import load_data
 
 
 class TestTrainNer(TestCase):
-    ANNOTATIONS_PATH = Path('../data/annotations.txt')
+    ANNOTATIONS_PATH = Path('data/annotations.txt')
 
     def test_load_data(self):
         data = load_data(self.ANNOTATIONS_PATH)

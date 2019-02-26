@@ -3,7 +3,7 @@ from unittest import TestCase
 import spacy
 
 from legal_ner.entity_extractors import EntityExtractor, HtmlEntityExtractor
-from legal_ner.pipeline import Pipeline
+from legal_ner.pipeline import Pipeline, Entity
 
 
 class SimplePipe(Pipeline):
@@ -23,7 +23,7 @@ class EntityExtractorTestCase(TestCase):
                       'für das Einfrieren und die Einziehung von Vermögenswerten auf Personen, die als für die '
                       'Veruntreuung staatlicher Vermögenswerte der Ukraine verantwortlich identifiziert wurden, sowie '
                       'auf für Menschenrechtsverletzungen verantwortliche Personen zu konzentrieren.')
-        self.assertEqual(['Ukraine', 'Ukraine', 'Ukraine'], [ent[0] for ent in extractor.get_entities('LOC')])
+        self.assertEqual(['Ukraine', 'Ukraine', 'Ukraine'], [ent[0] for ent in extractor.get_entities(Entity.LOC)])
 
 
 class HtmlEntityExtractorTestCase(TestCase):
@@ -32,4 +32,4 @@ class HtmlEntityExtractorTestCase(TestCase):
         extractor = HtmlEntityExtractor(SimplePipe('de_core_news_sm'))
         extractor.run('<p>&nbsp;&nbsp;&nbsp;Der Kl&auml;ger, Herr X., ist ein ehemaliger '
                       'Minister für Energie und Kohleindustrie der Ukraine.</p>')
-        self.assertEqual(['Ukraine'], [ent[0] for ent in extractor.get_entities('LOC')])
+        self.assertEqual(['Ukraine'], [ent[0] for ent in extractor.get_entities(Entity.LOC)])

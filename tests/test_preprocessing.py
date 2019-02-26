@@ -9,7 +9,7 @@ class HtmlConcealerTestCase(TestCase):
         html = '<h2>Tenor</h2>\n\n<ul class="ol"><li><p>1. Unter   Ab&#228;nderung des Beschlusses der Kammer'
         concealer = HtmlConcealer(html)
         concealer.conceal()
-        self.assertEqual('Tenor\n1. Unter Abänderung des Beschlusses der Kammer', concealer.get_content())
+        self.assertEqual('Tenor 1. Unter Abänderung des Beschlusses der Kammer', concealer.get_content())
 
     def test_remove_enumeration_numbers(self):
         html = '1. Unter\n' \

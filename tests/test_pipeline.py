@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from legal_ner.entity_extractors import EntityExtractor
-from legal_ner.pipeline import StatisticalPipeline, RuleBasedPipeline
+from legal_ner.pipeline import StatisticalPipeline, RuleBasedPipeline, Entity
 
 
 class PipelineTestCase(TestCase):
@@ -14,8 +14,8 @@ class PipelineTestCase(TestCase):
                       'für das Einfrieren und die Einziehung von Vermögenswerten auf Personen, die als für die '
                       'Veruntreuung staatlicher Vermögenswerte der Ukraine verantwortlich identifiziert wurden, sowie '
                       'auf für Menschenrechtsverletzungen verantwortliche Personen zu konzentrieren.')
-        self.assertEqual(['Kläger'], [ent[0] for ent in extractor.get_entities('PARTY')])
-        self.assertEqual(['3. März 2014'], [ent[0] for ent in extractor.get_entities('DATE')])
+        self.assertEqual(['Kläger'], [ent[0] for ent in extractor.get_entities(Entity.PARTY)])
+        self.assertEqual(['3. März 2014'], [ent[0] for ent in extractor.get_entities(Entity.DATE)])
 
     def test_statistical_extraction(self):
         extractor = EntityExtractor(StatisticalPipeline('de_core_news_sm'))
@@ -25,4 +25,4 @@ class PipelineTestCase(TestCase):
                       'für das Einfrieren und die Einziehung von Vermögenswerten auf Personen, die als für die '
                       'Veruntreuung staatlicher Vermögenswerte der Ukraine verantwortlich identifiziert wurden, sowie '
                       'auf für Menschenrechtsverletzungen verantwortliche Personen zu konzentrieren.')
-        self.assertEqual(['Ukraine', 'Ukraine', 'Ukraine'], [ent[0] for ent in extractor.get_entities('LOC')])
+        self.assertEqual(['Ukraine', 'Ukraine', 'Ukraine'], [ent[0] for ent in extractor.get_entities(Entity.LOC)])

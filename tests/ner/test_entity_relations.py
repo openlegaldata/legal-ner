@@ -4,6 +4,7 @@ import spacy
 
 from legal_ner.ner.entity_relations import EntityRelationExtractor, merge_spans, extract_relations_en, \
     extract_relations_de
+from legal_ner.pipeline import Entity
 
 
 class EntityRelationsTestCase(TestCase):
@@ -39,7 +40,7 @@ class EntityRelationExtractorTestCase(TestCase):
     def test_call(self):
         nlp = spacy.load('de_core_news_sm')
         doc = nlp('Der Vogel verbringt den Winter in Afrika.')
-        extractor = EntityRelationExtractor('LOC', 'de_core_news_sm')
+        extractor = EntityRelationExtractor(Entity.LOC, 'de_core_news_sm')
         doc = extractor.__call__(doc)
         self.assertEqual('Vogel', doc.ents[0]._.get('entity_relation_subj'))
         self.assertEqual('in', doc.ents[0]._.get('entity_relation_root'))
