@@ -2,7 +2,7 @@ from spacy.matcher import Matcher
 from spacy.tokens import Span
 
 
-class RuleBasedMatcher(object):
+class PatternBasedMatcher(object):
 
     def __init__(self, nlp, patterns, label):
         string_store = nlp.vocab.strings
@@ -17,11 +17,10 @@ class RuleBasedMatcher(object):
     def __call__(self, doc):
         new_ents = []
         old_ents = list(doc.ents)
+
         for _, start, end in self.matcher(doc):
             span = Span(doc, start, end, label=self.label)
             new_ents += [span]
 
-            if span in old_ents:
-                old_ents.remove(span)
-        doc.ents = old_ents + new_ents
+        doc.ents = list(set(old_ents + new_ents))
         return doc
