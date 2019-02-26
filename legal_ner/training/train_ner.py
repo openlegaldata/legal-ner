@@ -1,4 +1,3 @@
-import json
 import random
 from pathlib import Path
 
@@ -6,8 +5,8 @@ import plac
 import spacy
 from spacy.util import minibatch, compounding
 
-from data_utils import load_data
-from test import test
+from legal_ner.utils.data import load_data
+from legal_ner.training.test import test
 
 INSTALLED_MODELS = {'de': 'de_core_news_sm', 'en': 'en_core_web_sm'}
 
