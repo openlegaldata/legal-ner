@@ -34,7 +34,7 @@ def main(case_id, api_key, pipe, model=Path('models/legal-de')):
     elif pipe == 'rulebased':
         pipeline = RuleBasedPipeline(model)
     else:
-        raise ValueError('Unkwon pipeline {}!'.format(pipe))
+        raise ValueError('Unknown pipeline {}!'.format(pipe))
 
     extractor = HtmlEntityExtractor(pipeline)
     extractor.run(case.content)
