@@ -3,7 +3,7 @@ import plac
 from oldp_client.rest import ApiException
 
 from legal_ner.entity_extractors import HtmlEntityExtractor
-from legal_ner.pipeline import RuleBasedPipeline, Entity
+from legal_ner.pipeline import RuleBasedPipeline, Entity, StatisticalPipeline
 
 
 @plac.annotations(
@@ -15,13 +15,14 @@ from legal_ner.pipeline import RuleBasedPipeline, Entity
     publish=('Push the results visible to the Open Legal Data Site', 'flag', 'p'),
     trusted=('Make the results visible to every site user', 'flag', 't'),
     model=('Path to the spacy language model', 'option', 'm', str),
-    entities=('Comma separated list of entity names to extract', 'option', 'e', str)
+    entities_str=('Comma separated list of entity names to extract', 'option', 'e', str)
 )
 def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=False, publish=False,
-         model='models/legal-de', entities=''):
-    entity_types = entities.split(',')
-    if len(entity_types) == 0:
+         model='models/legal-de', entities_str=''):
+    if len(entities_str) == 0:
         entity_types = [prop for prop in vars(Entity) if not prop.startswith('__')]
+    else:
+        entity_types = entities_str.split(',')
 
     kwargs = {'slug': slug, 'file_number': file_number, 'court': court, 'court__state': state, 'page_size': 100}
     kwargs = {k: v for k, v in kwargs.items() if v is not None}
@@ -56,7 +57,7 @@ def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=F
         entities = []
         for case in cases:
             entities = annotate(case, entities, entity_types, RuleBasedPipeline(model=model))
-            # entities = annotate(case, entities, entity_types, StatisticalPipeline(model=model))
+            entities = annotate(case, entities, entity_types, StatisticalPipeline(model=model))
             break
         for (value, start, end, entity_type, case_id) in entities:
             ent_count += 1
@@ -66,7 +67,7 @@ def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=F
             else:
                 print("{}: {} [{}:{}]".format(entity_type, value, start, end))
 
-    print("...finished!\n{} entities found for labels {}!".format(ent_count))
+    print("...finished!\n{} entities found for labels {}!".format(ent_count, entity_types))
 
 
 def annotate(case, entities, entity_types, pipeline):
