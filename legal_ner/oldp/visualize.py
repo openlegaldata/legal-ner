@@ -6,16 +6,16 @@ from oldp_client.rest import ApiException
 from spacy import displacy
 
 from legal_ner.entity_extractors import HtmlEntityExtractor
-from legal_ner.pipeline import RuleBasedPipeline, StatisticalPipeline
+from legal_ner.pipeline import RuleBasedPipeline, StatisticalPipeline, Entity
 
 
 @plac.annotations(
     api_key=('Key for the Open Legal Data API', 'option', 'k', str),
     case_id=('Id of the case to annotate', 'option', 'i', int),
-    model=('Path to the spacy language model', 'option', 'm', Path),
+    model=('Path to the spacy language model', 'option', 'm', str),
     pipe=('The pipeline to use. Either "statistical" or "rulebased"', 'option', 'p', str)
 )
-def main(case_id, api_key, pipe, model=Path('models/legal-de')):
+def main(case_id, api_key, pipe, model='models/legal-de'):
     configuration = oldp_client.Configuration()
     configuration.api_key['Authorization'] = api_key
 
@@ -40,7 +40,17 @@ def main(case_id, api_key, pipe, model=Path('models/legal-de')):
     extractor.run(case.content)
     print("...finished!\n{} Entities found. Inspect results at: http://localhost:5000\n\nStop the server with "
           "CTRL+C".format(len(extractor.doc)))
-    displacy.serve(extractor.doc, 'ent')  # TODO add colors colors={'per':'blue'}
+    displacy.serve(extractor.doc, 'ent', options={'colors': {Entity.PER: '#BF3F3F',
+                                                             Entity.LOC: '#3FBF3F',
+                                                             Entity.ORG: '#BF3FBF',
+                                                             Entity.PARTY: '#3FBF7F',
+                                                             Entity.REASONING: '#7F3FBF',
+                                                             Entity.ACTION: '#BF3F7F',
+                                                             Entity.FORBEARANCE: '#3F3FBF',
+                                                             Entity.BGB_AT: '#3FBFBF',
+                                                             Entity.DATE: '#7FBF3F',
+                                                             Entity.EURO: '#BF7F3F',
+                                                             Entity.PERCENT: '#BF3F3F'}})
 
 
 if __name__ == '__main__':
