@@ -62,8 +62,8 @@ def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=F
         for (value, start, end, entity_type, case_id) in entities:
             ent_count += 1
             if publish:
-                case_annotations_api = oldp_client.CaseAnnotationsApi(api_instance)
-                push_to_oldp(case_annotations_api, case_id, value, start, end, entity_type, trusted)
+                case_markers_api = oldp_client.CaseMarkersApi(api_instance)
+                push_to_oldp(case_markers_api, case_id, value, start, end, entity_type, trusted)
             else:
                 print("{}: {} [{}:{}]".format(entity_type, value, start, end))
 
@@ -78,14 +78,17 @@ def annotate(case, entities, entity_types, pipeline):
     return entities
 
 
-def push_to_oldp(case_annotations_api, case_id, value, start, end, entity_type, trusted):
-    data = oldp_client.CaseAnnotation()
+def push_to_oldp(case_markers_api, case_id, value, start, end, entity_type, trusted):
+    data = oldp_client.CaseMarker()
     data.belongs_to = case_id
     data.label = entity_type
     data.value_str = str(value)
-    # TODO param trusted = True, start_char, end_char
+    data.start = start
+    data.end = end
+    # TODO param trusted, to differentiate between user specific and global markers
+
     try:
-        case_annotations_api.case_annotations_create(data)
+        case_markers_api.case_markers_create(data)
     except ApiException as e:
         print("Error when sending data to CaseAnnotationsApi: {}".format(e))
 
