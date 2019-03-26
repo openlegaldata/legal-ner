@@ -3,7 +3,7 @@ import plac
 from oldp_client.rest import ApiException
 
 from legal_ner.entity_extractors import HtmlEntityExtractor
-from legal_ner.pipeline import RuleBasedPipeline, Entity, StatisticalPipeline
+from legal_ner.pipeline import RuleBasedPipeline, Entity, StatisticalPipeline, HybridPipeline
 
 
 @plac.annotations(
@@ -14,10 +14,11 @@ from legal_ner.pipeline import RuleBasedPipeline, Entity, StatisticalPipeline
     state=('Annotate all cases for the given state id', 'option', 's', int),
     publish=('Push the results visible to the Open Legal Data Site', 'flag', 'p'),
     trusted=('Make the results visible to every site user', 'flag', 't'),
+    hybrid=('Use a hybrid rule based and statistical pipeline', 'flag', 'h'),
     model=('Path to the spacy language model', 'option', 'm', str),
     entities_str=('Comma separated list of entity names to extract', 'option', 'e', str)
 )
-def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=False, publish=False,
+def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=False, hybrid=False, publish=False,
          model='models/legal-de', entities_str=''):
     if len(entities_str) == 0:
         entity_types = [prop for prop in vars(Entity) if not prop.startswith('__')]
@@ -32,6 +33,7 @@ def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=F
 
     api_instance = oldp_client.ApiClient(configuration)
     cases_api = oldp_client.CasesApi(api_instance)
+    case_markers_api = oldp_client.CaseMarkersApi(api_instance)
 
     ent_count = 0
     page = 1
@@ -56,16 +58,17 @@ def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=F
 
         entities = []
         for case in cases:
-            entities = annotate(case, entities, entity_types, RuleBasedPipeline(model=model))
-            entities = annotate(case, entities, entity_types, StatisticalPipeline(model=model))
-            break
+            if hybrid:
+                entities = annotate(case, entities, entity_types, HybridPipeline(model=model))
+            else:
+                entities = annotate(case, entities, entity_types, RuleBasedPipeline(model=model))
+                entities = annotate(case, entities, entity_types, StatisticalPipeline(model=model))
+
         for (value, start, end, entity_type, case_id) in entities:
             ent_count += 1
             if publish:
-                case_markers_api = oldp_client.CaseMarkersApi(api_instance)
                 push_to_oldp(case_markers_api, case_id, value, start, end, entity_type, trusted)
-            else:
-                print("{}: {} [{}:{}]".format(entity_type, value, start, end))
+            print("{}: {} [{}:{}]".format(entity_type, value, start, end))
 
     print("...finished!\n{} entities found for labels {}!".format(ent_count, entity_types))
 
