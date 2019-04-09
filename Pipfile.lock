@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "890cf6ff34149186fa0b43b0119c78d478d0c608baf103ebcc65e333c7d8205f"
+            "sha256": "7a60e9f133ebe54df74ea53ee0d098c355de0e70bf8dad9543caa9a135e52289"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -84,11 +84,14 @@
             "index": "pypi",
             "version": "==0.7.1"
         },
+        "de-core-news-md": {
+            "file": "https://github.com/explosion/spacy-models/releases/download/de_core_news_md-2.1.0/de_core_news_md-2.1.0.tar.gz"
+        },
         "de-core-news-sm": {
-            "file": "https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.0.0/de_core_news_sm-2.0.0.tar.gz"
+            "file": "https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.1.0/de_core_news_sm-2.1.0.tar.gz"
         },
         "en-core-web-sm": {
-            "file": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz"
+            "file": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz"
         },
         "idna": {
             "hashes": [
@@ -235,17 +238,18 @@
         },
         "spacy": {
             "hashes": [
-                "sha256:0e2ed9a723fa9e10319a9c5ab3b2c8f986b820a9df80948321a138bf1b3633bd",
-                "sha256:110f16655beed757024e47ae4a90d6de8a84ba8d54f8feddbc0709ee663ec0fb",
-                "sha256:4ae3b8c5924ed5db764549a32b7dd821ecaf824e96dcf747302adda3dfbe9e06",
-                "sha256:4f307885aa1666ca31c8ef86d8171b0bb6c43aba4294fe76f41229a2311d69d6",
-                "sha256:6f3700425ab0515f81643957cb20b5d6454233a7fa66a7fca7f45e74147556b5",
-                "sha256:883882516695b78762a8962b7a23c4dc2bf8b8facc7ba73cf64b59f91e9f9031",
-                "sha256:e085052e61fe80608047613b1a6acb0f836adac244c8366e03e958962af60c77",
-                "sha256:eaea882e5639208ba4f6847b752132373afaa09d84c8c6ae969f78888625a3b9"
+                "sha256:0fe2e5905f2f5b41be3ebea40626f70bea567a7a2cda9c244109fffe8d964429",
+                "sha256:30f0f09074bf115a0384691e8ba3d64aab431192b3095a13312a93d0e8a71c07",
+                "sha256:6a82612f0e75c11d541002f49375d80b4800c967e5d2b402d5a8dd40b6c57ae6",
+                "sha256:74066ac969a587d16d00d65318c1baa3c3e9215e6858d0c81ce2823320fe09dc",
+                "sha256:b1b86ddf6142fa2782b2e0269d040430ae5696eb0224f3e99408897cac7bb506",
+                "sha256:be8a7c89461ac22d261e19e1d3eb35752d8ff3e52452af076b303561bb166408",
+                "sha256:e6522e1242a5a5f12ef7e55f74df020b5deea59f7d1e7b6e69298301e3c0badd",
+                "sha256:eb699f54bf6d131df701e6dbbef9e91b74a065a42c9d2850964282b3c14560bb",
+                "sha256:f385942c5b2c8cf07e4a56871f88a49d4c8a9145fcd731c455e39fb5af9b12ba"
             ],
             "index": "pypi",
-            "version": "==2.1.2"
+            "version": "==2.1.3"
         },
         "srsly": {
             "hashes": [
@@ -305,10 +309,10 @@
         },
         "wasabi": {
             "hashes": [
-                "sha256:20bac146d9e418d05a62882e43bda8e1e0dde5f980005e35dc565c44c0876f89",
-                "sha256:62f2c8882a8235508d1f0d6de7be32cdc747c103548475e632ff402fa28380ff"
+                "sha256:3491ae742d238ce260116d1b9bf962c134e82df5c814060ea4b1433c6abc841e",
+                "sha256:57d4f715e69bc99895215ddc4f5587f90c5bac9f4980c0826b0aa09c1a625769"
             ],
-            "version": "==0.2.0"
+            "version": "==0.2.1"
         }
     },
     "develop": {}

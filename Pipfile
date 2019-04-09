@@ -10,8 +10,9 @@ numpy = "*"
 spacy = "*"
 plac = "*"
 oldp-api = {git = "https://github.com/openlegaldata/oldp-sdk-python.git"}
-de_core_news_sm = {file = 'https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.0.0/de_core_news_sm-2.0.0.tar.gz'}
-en_core_web_sm = {file = 'https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz'}
+de_core_news_sm = {file = 'https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.1.0/de_core_news_sm-2.1.0.tar.gz'}
+de_core_news_md = {file = 'https://github.com/explosion/spacy-models/releases/download/de_core_news_md-2.1.0/de_core_news_md-2.1.0.tar.gz'}
+en_core_web_sm = {file = 'https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz'}
 dateparser = "*"
 
 [requires]
