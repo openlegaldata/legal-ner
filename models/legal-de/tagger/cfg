@@ -3,5 +3,5 @@
   "deprecation_fixes":{
     "vectors_name":null
   },
-  "pretrained_dims":0
+  "pretrained_vectors":null
 }

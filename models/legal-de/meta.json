@@ -1,37 +1,42 @@
 {
-  "lang":"de",
-  "pipeline":[
+  "accuracy": {
+    "ents_f": 83.0956403449,
+    "ents_p": 84.0891681561,
+    "ents_r": 82.1253157832,
+    "las": 88.5765686382,
+    "tags_acc": 96.2712177609,
+    "token_acc": 95.8825112452,
+    "uas": 90.6604985865
+  },
+  "author": "Explosion AI",
+  "description": "German multi-task CNN trained on the TIGER and WikiNER corpus. Assigns context-specific token vectors, POS tags, dependency parse and named entities. Supports identification of PER, LOC, ORG and MISC entities.",
+  "email": "contact@explosion.ai",
+  "lang": "de",
+  "license": "MIT",
+  "name": "core_news_sm",
+  "notes": "Because the model is trained on Wikipedia, it may perform inconsistently on many genres, such as social media text. The NER accuracy refers to the \"silver standard\" annotations in the WikiNER corpus. Accuracy on these annotations tends to be higher than correct human annotations.",
+  "parent_package": "spacy",
+  "pipeline": [
     "tagger",
     "parser",
     "ner"
   ],
-  "name":"core_news_sm",
-  "license":"CC BY-SA 3.0",
-  "author":"Explosion AI",
-  "url":"https://explosion.ai",
-  "notes":"Because the model is trained on Wikipedia, it may perform inconsistently on many genres, such as social media text. The NER accuracy refers to the \"silver standard\" annotations in the WikiNER corpus. Accuracy on these annotations tends to be higher than correct human annotations.",
-  "vectors":{
-    "width":0,
-    "vectors":0,
-    "keys":0,
-    "name":null
-  },
-  "sources":[
+  "sources": [
     "TIGER Corpus",
     "Wikipedia"
   ],
-  "version":"2.0.0",
-  "spacy_version":">=2.0.0a18",
-  "description":"German multi-task CNN trained on the TIGER and WikiNER corpus. Assigns context-specific token vectors, POS tags, dependency parse and named entities. Supports identification of PER, LOC, ORG and MISC entities.",
-  "parent_package":"spacy",
-  "email":"contact@explosion.ai",
-  "accuracy":{
-    "token_acc":99.7350249964,
-    "ents_p":82.8423083593,
-    "ents_r":82.8647634743,
-    "uas":91.7982430106,
-    "tags_acc":97.1511050734,
-    "ents_f":82.8535343954,
-    "las":89.7518846085
+  "spacy_version": ">=2.1.0",
+  "speed": {
+    "cpu": 6799.7630129589,
+    "gpu": null,
+    "nwords": 696811
+  },
+  "url": "https://explosion.ai",
+  "version": "2.1.0",
+  "vectors": {
+    "width": 0,
+    "vectors": 0,
+    "keys": 0,
+    "name": null
   }
 }
