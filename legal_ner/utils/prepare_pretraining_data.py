@@ -25,6 +25,8 @@ def split_paragraphs(string):
     output=('Path to jsonl file with raw texts', 'option', 'o', Path)
 )
 def main(input: Path, output: Path):
+    """A script to prepare unsupervised pretraining data for spacy. The created data is intended to be used with
+    the commands https://spacy.io/api/cli#pretrain and consecutively https://spacy.io/api/cli#train"""
     if not output.parent.exists():
         output.parent.mkdir(parents=True, exist_ok=True)
 
