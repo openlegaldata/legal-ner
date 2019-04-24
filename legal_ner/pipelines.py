@@ -2,6 +2,7 @@ from abc import abstractmethod
 
 import spacy
 
+from legal_ner.ner.entity_ruler import init_entity_ruler
 from legal_ner.ner.pattern_based import PatternBasedMatcher
 from legal_ner.ner.regexp_based import RegexpBasedMatcher
 from legal_ner.ner.regexps.dates import GermanDates
@@ -94,11 +95,11 @@ class JoinedPipeline(Pipeline):
         for word, special_case in special_cases.items():
             nlp.tokenizer.add_special_case(word, special_case)
 
-        party_matcher = PatternBasedMatcher(nlp, party, Entity.PARTY)
-        nlp.add_pipe(party_matcher, name='party_matcher', before='ner')
+        party_entity_ruler = init_entity_ruler(nlp, party, Entity.PARTY)
+        nlp.add_pipe(party_entity_ruler, name='party_entity_ruler', before='ner')
 
-        reasoning_matcher = PatternBasedMatcher(nlp, reasoning, Entity.REASONING)
-        nlp.add_pipe(reasoning_matcher, name='reasoning_matcher', before='ner')
+        reasoning_entity_ruler = init_entity_ruler(nlp, reasoning, Entity.REASONING)
+        nlp.add_pipe(reasoning_entity_ruler, name='reasoning_entity_ruler', before='ner')
 
         date_matcher = RegexpBasedMatcher(nlp, Entity.DATE, GermanDates())
         nlp.add_pipe(date_matcher, name='regexp_dates_extractor', before='ner')
