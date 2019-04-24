@@ -3,7 +3,7 @@ from unittest import TestCase
 import spacy
 
 from legal_ner.entity_extractors import EntityExtractor, HtmlEntityExtractor
-from legal_ner.pipeline import Pipeline, Entity
+from legal_ner.pipelines import Pipeline, Entity
 
 
 class SimplePipe(Pipeline):

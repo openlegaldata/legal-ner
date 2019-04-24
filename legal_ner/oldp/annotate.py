@@ -3,7 +3,7 @@ import plac
 from oldp_client.rest import ApiException
 
 from legal_ner.entity_extractors import HtmlEntityExtractor
-from legal_ner.pipeline import RuleBasedPipeline, Entity, StatisticalPipeline, HybridPipeline
+from legal_ner.pipelines import RuleBasedPipeline, Entity, StatisticalPipeline, JoinedPipeline
 
 
 @plac.annotations(
@@ -14,11 +14,11 @@ from legal_ner.pipeline import RuleBasedPipeline, Entity, StatisticalPipeline, H
     state=('Annotate all cases for the given state id', 'option', 's', int),
     publish=('Push the results visible to the Open Legal Data Site', 'flag', 'p'),
     trusted=('Make the results visible to every site user', 'flag', 't'),
-    hybrid=('Use a hybrid rule based and statistical pipeline', 'flag', 'h'),
+    joined=('Use a joined rule based and statistical pipeline', 'flag', 'j'),
     model=('Path to the spacy language model', 'option', 'm', str),
     entities_str=('Comma separated list of entity names to extract', 'option', 'e', str)
 )
-def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=False, hybrid=False, publish=False,
+def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=False, joined=False, publish=False,
          model='models/legal-de', entities_str=''):
     if len(entities_str) == 0:
         entity_types = [prop for prop in vars(Entity) if not prop.startswith('__')]
@@ -58,8 +58,8 @@ def main(api_key, slug=None, file_number=None, court=None, state=None, trusted=F
 
         entities = []
         for case in cases:
-            if hybrid:
-                entities = annotate(case, entities, entity_types, HybridPipeline(model=model))
+            if joined:
+                entities = annotate(case, entities, entity_types, JoinedPipeline(model=model))
             else:
                 entities = annotate(case, entities, entity_types, RuleBasedPipeline(model=model))
                 entities = annotate(case, entities, entity_types, StatisticalPipeline(model=model))

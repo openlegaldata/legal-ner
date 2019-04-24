@@ -4,7 +4,7 @@ import spacy
 
 from legal_ner.ner.entity_relations import EntityRelationExtractor, merge_spans, extract_relations_en, \
     extract_relations_de
-from legal_ner.pipeline import Entity
+from legal_ner.pipelines import Entity
 
 
 class EntityRelationsTestCase(TestCase):

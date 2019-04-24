@@ -38,7 +38,7 @@ $ python legal_ner/oldp/annotate.py --help
 
 You can also extract and locally visualize entities for a single case using:
 ```
-$ python legal_ner/oldp/visualize.py -k=your-your_api_key-key -i=case_id
+$ python legal_ner/oldp/visualize.py -k=your-your_api_key-key -i=case_id -p=joined
 ```
 
 

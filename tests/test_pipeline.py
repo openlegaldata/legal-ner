@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from legal_ner.entity_extractors import EntityExtractor
-from legal_ner.pipeline import StatisticalPipeline, RuleBasedPipeline, Entity
+from legal_ner.pipelines import StatisticalPipeline, RuleBasedPipeline, Entity
 
 
 class PipelineTestCase(TestCase):

@@ -1,19 +1,17 @@
-from pathlib import Path
-
 import oldp_client
 import plac
 from oldp_client.rest import ApiException
 from spacy import displacy
 
 from legal_ner.entity_extractors import HtmlEntityExtractor
-from legal_ner.pipeline import RuleBasedPipeline, StatisticalPipeline, Entity
+from legal_ner.pipelines import RuleBasedPipeline, StatisticalPipeline, Entity, JoinedPipeline
 
 
 @plac.annotations(
     api_key=('Key for the Open Legal Data API', 'option', 'k', str),
     case_id=('Id of the case to annotate', 'option', 'i', int),
     model=('Path to the spacy language model', 'option', 'm', str),
-    pipe=('The pipeline to use. Either "statistical" or "rulebased"', 'option', 'p', str)
+    pipe=('The pipeline to use. Either "statistical", "rulebased" or "joined"', 'option', 'p', str)
 )
 def main(case_id, api_key, pipe, model='models/legal-de'):
     configuration = oldp_client.Configuration()
@@ -33,6 +31,8 @@ def main(case_id, api_key, pipe, model='models/legal-de'):
         pipeline = StatisticalPipeline(model)
     elif pipe == 'rulebased':
         pipeline = RuleBasedPipeline(model)
+    elif pipe == 'joined':
+        pipeline = JoinedPipeline(model)
     else:
         raise ValueError('Unknown pipeline {}!'.format(pipe))
 

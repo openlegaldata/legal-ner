@@ -85,7 +85,7 @@ class StatisticalPipeline(Pipeline):
         return doc
 
 
-class HybridPipeline(Pipeline):
+class JoinedPipeline(Pipeline):
 
     def run(self, text):
         nlp = spacy.load(self.model)
